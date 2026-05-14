@@ -9,33 +9,33 @@ function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const [error, setError] = useState(null);
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [preview,setPreview]=useState();
+  const [preview, setPreview] = useState();
 
   const onSubmit = async (newUser) => {
     setLoading(true);
     // Create form data object
-        const formData = new FormData();
-        //get user object
-        let { role, profileImageUrl, ...userObj } = newUser;
-        //add all fields except profilePic to FormData object
-        Object.keys(userObj).forEach((key) => {
-        formData.append(key, userObj[key]);
-        });
-        // add profilePic to Formdata object
-        formData.append("profileImageUrl", profileImageUrl[0]);
+    const formData = new FormData();
+    //get user object
+    let { role, profileImageUrl, ...userObj } = newUser;
+    //add all fields except profilePic to FormData object
+    Object.keys(userObj).forEach((key) => {
+      formData.append(key, userObj[key]);
+    });
+    // add profilePic to Formdata object
+    formData.append("profileImageUrl", profileImageUrl[0]);
 
     try {
 
-     
+
 
       if (role === "user") {
-        await axios.post("http://localhost:4000/user-api/users", formData);
+        await axios.post("https://blog-app-backened-lemon.vercel.app//user-api/users", formData);
       }
 
       if (role === "author") {
-        await axios.post("http://localhost:4000/author-api/users", formData);
+        await axios.post("https://blog-app-backened-lemon.vercel.app//author-api/users", formData);
       }
 
       console.log("User registered successfully");
@@ -124,7 +124,7 @@ function Register() {
 
 
         {/* {password} */}
-         <input
+        <input
           type="password"
           placeholder="Password"
           className="bg-gray-400 p-3 w-full"
@@ -136,49 +136,49 @@ function Register() {
 
         <div>
           <label >Profile image url</label>
-          
-          <input
-        type="file"
-        accept="image/png, image/jpeg"
-        {...register("profileImageUrl")}
-        onChange={(e) => {
 
-            //get image file
-            const file = e.target.files[0];
-            // validation for image format
-            if (file) {
+          <input
+            type="file"
+            accept="image/png, image/jpeg"
+            {...register("profileImageUrl")}
+            onChange={(e) => {
+
+              //get image file
+              const file = e.target.files[0];
+              // validation for image format
+              if (file) {
                 if (!["image/jpeg", "image/png"].includes(file.type)) {
-                setError("Only JPG or PNG allowed");
-                return;
+                  setError("Only JPG or PNG allowed");
+                  return;
                 }
                 //validation for file size
                 if (file.size > 2 * 1024 * 1024) {
-                setError("File size must be less than 2MB");
-                return;
+                  setError("File size must be less than 2MB");
+                  return;
                 }
                 //Converts file → temporary browser URL(create preview URL)
                 const previewUrl = URL.createObjectURL(file);
                 setPreview(previewUrl);
                 setError(null);
-            }
+              }
 
-        }} />
-        {preview && (
-                <div className="mt-3 flex justify-center">
-                <img
-                    src={preview}
-                    alt="Preview"
-                    className="w-24 h-24 object-cover rounded-full border"
-                />
-                </div>
-            )}
+            }} />
+          {preview && (
+            <div className="mt-3 flex justify-center">
+              <img
+                src={preview}
+                alt="Preview"
+                className="w-24 h-24 object-cover rounded-full border"
+              />
+            </div>
+          )}
 
-          
-          
-          
-        </div> 
 
-       
+
+
+        </div>
+
+
 
         <button className="bg-blue-400 px-8 py-3 block mx-auto">
           Submit

@@ -10,12 +10,12 @@ const UserDashboard = () => {
   const navigate = useNavigate();
 
   const user = useAuth(state => state.currentUser);
- 
+
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4000/user-api/articles",
+          "https://blog-app-backened-lemon.vercel.app/user-api/articles",
           { withCredentials: true }
         );
 
@@ -50,22 +50,22 @@ const UserDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-    
-    
 
-        {/* Header */}
-        <div className=" rounded-2xl shadow-sm p-8 mb-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">
-              Welcome, <span className="text-blue-600">{user?.firstName}</span>
-            </h1>
-            <p className="mt-1 text-gray-500">
-              Explore the latest articles.
-            </p>
-          </div>
 
-          {/* image */}
-          <div className='flex justify-center'>
+
+      {/* Header */}
+      <div className=" rounded-2xl shadow-sm p-8 mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Welcome, <span className="text-blue-600">{user?.firstName}</span>
+          </h1>
+          <p className="mt-1 text-gray-500">
+            Explore the latest articles.
+          </p>
+        </div>
+
+        {/* image */}
+        <div className='flex justify-center'>
           <img
             src={user?.profileImageUrl}
             alt=""
@@ -78,36 +78,36 @@ const UserDashboard = () => {
           >
             Logout
           </button>
-          </div>
-        </div>
-
-        {/* Articles */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {articles.map((article) => (
-            <div key={article._id} className="border p-5 bg-white rounded-lg">
-              <span className="text-blue-500 text-xs uppercase">
-                {article.category}
-              </span>
-
-              <h3 className="text-xl font-bold mt-1">
-                {article.title}
-              </h3>
-
-              <p className="text-gray-600 mt-2 line-clamp-3">
-                {article.content}
-              </p>
-
-              <button 
-                className={submitBtn + " mt-2"}
-                onClick={() => navigate(`/article/${article._id}`, { state: article })}
-              >
-                Read More
-              </button>
-            </div>
-          ))}
         </div>
       </div>
-    
+
+      {/* Articles */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {articles.map((article) => (
+          <div key={article._id} className="border p-5 bg-white rounded-lg">
+            <span className="text-blue-500 text-xs uppercase">
+              {article.category}
+            </span>
+
+            <h3 className="text-xl font-bold mt-1">
+              {article.title}
+            </h3>
+
+            <p className="text-gray-600 mt-2 line-clamp-3">
+              {article.content}
+            </p>
+
+            <button
+              className={submitBtn + " mt-2"}
+              onClick={() => navigate(`/article/${article._id}`, { state: article })}
+            >
+              Read More
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+
   );
 };
 

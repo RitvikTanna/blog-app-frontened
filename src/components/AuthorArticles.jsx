@@ -24,8 +24,8 @@ function AuthorArticles() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  console.log("user in author profile",user)
-  
+  console.log("user in author profile", user)
+
   useEffect(() => {
     if (!user) return;
 
@@ -33,7 +33,7 @@ function AuthorArticles() {
       setLoading(true);
 
       try {
-        const res = await axios.get(`http://localhost:4000/author-api/articles/${user._id}`, { withCredentials: true });
+        const res = await axios.get(`https://blog-app-backened-lemon.vercel.app//author-api/articles/${user._id}`, { withCredentials: true });
 
         setArticles(res.data.payload);
       } catch (err) {
@@ -50,6 +50,12 @@ function AuthorArticles() {
 
   const openArticle = (article) => {
     navigate(`/article/${article._id}`, {
+      state: article,
+    });
+  };
+
+  const editArticle = (article) => {
+    navigate(`/edit-article`, {
       state: article,
     });
   };
@@ -85,9 +91,14 @@ function AuthorArticles() {
             <p className={articleExcerpt}>{article.content.slice(0, 60)}...</p>
           </div>
 
-          <button className={`${ghostBtn} mt-auto pt-4`} onClick={() => openArticle(article)}>
-            Read Article →
-          </button>
+          <div className="mt-auto pt-4 flex justify-between items-center w-full">
+            <button className={ghostBtn} onClick={() => openArticle(article)}>
+              Read Article →
+            </button>
+            <button className={ghostBtn} onClick={() => editArticle(article)}>
+              Edit
+            </button>
+          </div>
         </div>
       ))}
     </div>

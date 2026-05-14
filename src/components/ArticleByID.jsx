@@ -42,7 +42,7 @@ function ArticleByID() {
       setLoading(true);
 
       try {
-        const res = await axios.get(`http://localhost:4000/user-api/article/${id}`, { withCredentials: true });
+        const res = await axios.get(`https://blog-app-backened-lemon.vercel.app//user-api/article/${id}`, { withCredentials: true });
 
         console.log("Article loaded:", res.data.payload);
         setArticle(res.data.payload);
@@ -74,7 +74,7 @@ function ArticleByID() {
 
     try {
       const res = await axios.patch(
-        `http://localhost:4000/author-api/articles/${id}/status`,
+        `https://blog-app-backened-lemon.vercel.app//author-api/articles/${id}/status`,
         { isArticleActive: newStatus },
         { withCredentials: true },
       );
@@ -128,9 +128,9 @@ function ArticleByID() {
       commentObj.articleId = article._id;
       commentObj.user = user._id || user.userId;
       console.log("Adding comment:", commentObj);
-      
-      const res = await axios.put("http://localhost:4000/user-api/articles", commentObj, { withCredentials: true });
-      
+
+      const res = await axios.put("https://blog-app-backened-lemon.vercel.app//user-api/articles", commentObj, { withCredentials: true });
+
       if (res.status === 200) {
         console.log("Comment added, updated article:", res.data.payload);
         toast.success(res.data.message || "Comment added successfully");
@@ -139,12 +139,32 @@ function ArticleByID() {
       }
     } catch (err) {
       console.log("Error adding comment:", err);
-      const errorMsg = typeof err.response?.data?.error === 'string' 
-        ? err.response?.data?.error 
+      const errorMsg = typeof err.response?.data?.error === 'string'
+        ? err.response?.data?.error
         : err.response?.data?.message || "Failed to add comment";
       toast.error(errorMsg);
     } finally {
       setCommentLoading(false);
+    }
+  };
+
+  // delete comment
+  const deleteComment = async (commentId) => {
+    if (!window.confirm("Are you sure you want to delete this comment?")) return;
+
+    try {
+      const res = await axios.delete(`https://blog-app-backened-lemon.vercel.app/user-api/articles/${article._id}/comments/${commentId}`, { withCredentials: true });
+
+      if (res.status === 200) {
+        toast.success(res.data.message || "Comment deleted successfully");
+        setArticle(res.data.payload);
+      }
+    } catch (err) {
+      console.log("Error deleting comment:", err);
+      const errorMsg = typeof err.response?.data?.error === 'string'
+        ? err.response?.data?.error
+        : err.response?.data?.message || "Failed to delete comment";
+      toast.error(errorMsg);
     }
   };
 
@@ -214,8 +234,8 @@ function ArticleByID() {
                 placeholder="Share your thoughts on this article..."
               />
             </div>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
               disabled={commentLoading}
             >
@@ -236,9 +256,19 @@ function ArticleByID() {
                   <p className="font-semibold text-blue-600">
                     {comment.user?.firstName ? `${comment.user.firstName} ${comment.user.lastName || ""}` : comment.user?.email || "Anonymous"}
                   </p>
-                  <span className="text-sm text-gray-500">
-                    {comment.createdAt ? formatDate(comment.createdAt) : ""}
-                  </span>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm text-gray-500">
+                      {comment.createdAt ? formatDate(comment.createdAt) : ""}
+                    </span>
+                    {(user?.role === "AUTHOR" || user?._id === comment.user?._id || user?.userId === comment.user?._id || user?.userId === comment.userId || user?.userId === comment.user) && (
+                      <button
+                        onClick={() => deleteComment(comment._id)}
+                        className="text-red-500 hover:text-red-700 text-sm font-semibold"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <p className="text-gray-700 leading-relaxed">{comment.comment}</p>
               </div>

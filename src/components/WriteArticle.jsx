@@ -42,7 +42,7 @@ function WriteArticle() {
 
     try {
       await axios.post(
-        "http://localhost:4000/author-api/articles",
+        "https://blog-app-backened-lemon.vercel.app/author-api/articles",
         articleObj,
         { withCredentials: true }
       );

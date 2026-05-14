@@ -39,7 +39,7 @@ function UserDashboard() {
         setLoading(true);
 
         const resObj = await axios.get(
-          "http://localhost:5000/user-api/articles",
+          "https://blog-app-backened-lemon.vercel.a/user-api/articles",
           { withCredentials: true }
         );
 
