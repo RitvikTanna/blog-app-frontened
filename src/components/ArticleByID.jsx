@@ -42,7 +42,7 @@ function ArticleByID() {
       setLoading(true);
 
       try {
-        const res = await axios.get(`https://blog-app-backened-lemon.vercel.app//user-api/article/${id}`, { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/user-api/article/${id}`, { withCredentials: true });
 
         console.log("Article loaded:", res.data.payload);
         setArticle(res.data.payload);
@@ -74,7 +74,7 @@ function ArticleByID() {
 
     try {
       const res = await axios.patch(
-        `https://blog-app-backened-lemon.vercel.app//author-api/articles/${id}/status`,
+        `${import.meta.env.VITE_API_URL}/author-api/articles/${id}/status`,
         { isArticleActive: newStatus },
         { withCredentials: true },
       );
@@ -129,7 +129,7 @@ function ArticleByID() {
       commentObj.user = user._id || user.userId;
       console.log("Adding comment:", commentObj);
 
-      const res = await axios.put("https://blog-app-backened-lemon.vercel.app//user-api/articles", commentObj, { withCredentials: true });
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/user-api/articles`, commentObj, { withCredentials: true });
 
       if (res.status === 200) {
         console.log("Comment added, updated article:", res.data.payload);
@@ -153,7 +153,7 @@ function ArticleByID() {
     if (!window.confirm("Are you sure you want to delete this comment?")) return;
 
     try {
-      const res = await axios.delete(`https://blog-app-backened-lemon.vercel.app/user-api/articles/${article._id}/comments/${commentId}`, { withCredentials: true });
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/user-api/articles/${article._id}/comments/${commentId}`, { withCredentials: true });
 
       if (res.status === 200) {
         toast.success(res.data.message || "Comment deleted successfully");
@@ -210,7 +210,7 @@ function ArticleByID() {
       )}
 
       {/* AUTHOR actions */}
-      {user?.role === "AUTHOR" && (
+      {user?.role === "AUTHOR" && (article.author?._id === (user?._id || user?.userId) || article.author === (user?._id || user?.userId)) && (
         <div className={articleActions}>
           <button className={editBtn} onClick={() => editArticle(article)}>
             Edit

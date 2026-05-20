@@ -15,7 +15,7 @@ const UserDashboard = () => {
     const fetchArticles = async () => {
       try {
         const res = await axios.get(
-          "https://blog-app-backened-lemon.vercel.app/user-api/articles",
+          `${import.meta.env.VITE_API_URL}/user-api/articles`,
           { withCredentials: true }
         );
 

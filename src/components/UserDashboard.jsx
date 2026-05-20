@@ -39,7 +39,7 @@ function UserDashboard() {
         setLoading(true);
 
         const resObj = await axios.get(
-          "https://blog-app-backened-lemon.vercel.a/user-api/articles",
+          `${import.meta.env.VITE_API_URL}/user-api/articles`,
           { withCredentials: true }
         );
 

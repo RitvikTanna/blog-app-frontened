@@ -31,11 +31,11 @@ function Register() {
 
 
       if (role === "user") {
-        await axios.post("https://blog-app-backened-lemon.vercel.app//user-api/users", formData);
+        await axios.post(`${import.meta.env.VITE_API_URL}/user-api/users`, formData);
       }
 
       if (role === "author") {
-        await axios.post("https://blog-app-backened-lemon.vercel.app//author-api/users", formData);
+        await axios.post(`${import.meta.env.VITE_API_URL}/author-api/users`, formData);
       }
 
       console.log("User registered successfully");

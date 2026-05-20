@@ -42,7 +42,7 @@ function WriteArticle() {
 
     try {
       await axios.post(
-        "https://blog-app-backened-lemon.vercel.app/author-api/articles",
+        `${import.meta.env.VITE_API_URL}/author-api/articles`,
         articleObj,
         { withCredentials: true }
       );
