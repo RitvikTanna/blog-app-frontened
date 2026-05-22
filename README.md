@@ -1,16 +1,11 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Project Overview: Highlighting the React + Vite single-page application (SPA).
+Key Tech Stack: React, Vite, Zustand (State Management), React Router DOM (Routing), Axios (HTTP Client), React Hot Toast (Notifications), CSS/Tailwind (Styles).
+Key Features:
+Dynamic dashboards based on user role (USER, AUTHOR, ADMIN).
+Protected Routes wrapper (ProtectedRoute.jsx) to enforce access controls.
+Article management interface for authors (Write/Edit articles).
+Comment section for logged-in readers.
+User authentication state synchronized globally using Zustand.
+Configuration:
+Environment variable VITE_API_URL pointing to local backend (http://localhost:4000) or deployed instance on Vercel.
+Launch Instructions: npm install and npm run dev to boot up.
